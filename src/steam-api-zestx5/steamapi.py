@@ -22,5 +22,18 @@ def get_news_for_app(app_id: str, count: int, max_length: int, format: str = "js
     return response.text
 
 
+def get_global_achievement_percentages_for_app(game_id: str, format: str = "json"):
+    """Returns on global achievements overview of a specific game in percentages.
+
+    Args:
+        game_id (str): AppID of the game you want the news of.
+        format (str, optional): Output format. json (default), xml or vdf.
+    """
+    URL = f"http://api.steampowered.com/ISteamUserStats/GetGlobalAchievementPercentagesForApp/v0002/?gameid={game_id}&format={format}"
+    response = requests.get(URL)
+    return response.text
+
+
 if __name__ == "__main__":
     print(get_news_for_app("440", 3, 300))
+    print(get_global_achievement_percentages_for_app("440"))
