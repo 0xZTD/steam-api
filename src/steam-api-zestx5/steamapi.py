@@ -34,6 +34,19 @@ def get_global_achievement_percentages_for_app(game_id: str, format: str = "json
     return response.text
 
 
+def get_player_summaries(steamd_ids: list[str], format: str = "json"):
+    """Returns basic profile information for a list of 64-bit Steam IDs.
+
+    Args:
+        steamd_ids (list[str]): List of 64 bit Steam IDs to return profile information for. Up to 100 Steam IDs can be requested.
+        format (str, optional): Output format. json (default), xml or vdf.
+    """
+    URL = f"http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={STEAM_KEY}&steamids={",".join(steamd_ids)}"
+    response = requests.get(URL)
+    return response.text
+
+
 if __name__ == "__main__":
     print(get_news_for_app("440", 3, 300))
     print(get_global_achievement_percentages_for_app("440"))
+    print(get_player_summaries(["76561199170929376","76561197960435530"]))
