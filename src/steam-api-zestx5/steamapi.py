@@ -34,19 +34,31 @@ def get_global_achievement_percentages_for_app(game_id: str, format: str = "json
     return response.text
 
 
-def get_player_summaries(steamd_ids: list[str], format: str = "json"):
+def get_player_summaries(steam_ids: list[str], format: str = "json"):
     """Returns basic profile information for a list of 64-bit Steam IDs.
 
     Args:
         steamd_ids (list[str]): List of 64 bit Steam IDs to return profile information for. Up to 100 Steam IDs can be requested.
         format (str, optional): Output format. json (default), xml or vdf.
     """
-    URL = f"http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={STEAM_KEY}&steamids={",".join(steamd_ids)}"
+    URL = f"http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={STEAM_KEY}&steamids={",".join(steam_ids)}"
     response = requests.get(URL)
     return response.text
 
+def get_friend_list(steam_id:str,relationship:str,format:str = "json"):
+    """Returns the friend list of any Steam user, provided their Steam Community profile visibility is set to "Public". 
+
+    Args:
+        steam_id (str): 64 bit Steam ID to return friend list for.
+        relationship (str): Relationship filter. Possibles values: all, friend.
+        format (str, optional): Output format. json (default), xml or vdf. 
+    """
+    URL = f"http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key={STEAM_KEY}&steamid={steam_id}&relationship={relationship}"
+    response = requests.get(URL)
+    return response.text
 
 if __name__ == "__main__":
     print(get_news_for_app("440", 3, 300))
     print(get_global_achievement_percentages_for_app("440"))
     print(get_player_summaries(["76561199170929376","76561197960435530"]))
+    print(get_friend_list("76561197960435530","all"))
