@@ -111,15 +111,16 @@ def get_owned_games(
     return response.text
 
 
-if __name__ == "__main__":
-    # print(get_news_for_app("440", 3, 300))
-    # print(get_global_achievement_percentages_for_app("440"))
-    # print(get_player_summaries(["76561199170929376","76561197960435530"]))
-    # print(get_friend_list("76561197960435530","all"))
-    # print(get_player_achievements("76561199170929376","2379780","Russian"))
-    # print(
-    #     get_owned_games(
-    #         "76561199170929376", True, True, "json", {"appids_filter": [400, 570]}
-    #     )
-    # )
-    pass
+def get_recently_played_games(steam_id: str, count: int = None, format: str = "json"):
+    """Returns a list of games a player has played in the last two weeks, if the profile is publicly visible. Private, friends-only, and other privacy settings are not supported unless you are asking for your own personal details (ie the WebAPI key you are using is linked to the steamid you are requesting).
+
+    Args:
+        steam_id (str): The SteamID of the account.
+        count (int): Optionally limit to a certain number of games (the number of games a person has played in the last 2 weeks is typically very small).
+        format (str, optional): Output format. json (default), xml or vdf.
+    """
+    URL = f"http://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/?key={STEAM_KEY}&steamid={steam_id}&format={format}"
+    if count != None:
+        URL = URL + f"&count={count}"
+    response = requests.get(URL)
+    return response.text
