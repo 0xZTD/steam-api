@@ -57,8 +57,26 @@ def get_friend_list(steam_id:str,relationship:str,format:str = "json"):
     response = requests.get(URL)
     return response.text
 
+def get_player_achievements(steam_id:str,app_id:str,lang:str=""):
+    """Returns a list of achievements for this user by app id 
+
+    Args:
+        steam_id (str): 64 bit Steam ID to return friend list for.
+        app_id (str): The ID for the game you're requesting
+        lang (str, optional): Language. If specified, it will return language data for the requested language.
+    """
+    if lang == "":
+        URL = f"http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid={app_id}&key={STEAM_KEY}&steamid={steam_id}"
+    else:
+        URL = f"http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid={app_id}&key={STEAM_KEY}&steamid={steam_id}&l={lang}"
+    
+    response = requests.get(URL) 
+    return response.text
+
 if __name__ == "__main__":
-    print(get_news_for_app("440", 3, 300))
-    print(get_global_achievement_percentages_for_app("440"))
-    print(get_player_summaries(["76561199170929376","76561197960435530"]))
-    print(get_friend_list("76561197960435530","all"))
+    # print(get_news_for_app("440", 3, 300))
+    # print(get_global_achievement_percentages_for_app("440"))
+    # print(get_player_summaries(["76561199170929376","76561197960435530"]))
+    # print(get_friend_list("76561197960435530","all"))
+    # print(get_player_achievements("76561199170929376","2379780","Russian"))
+    pass
